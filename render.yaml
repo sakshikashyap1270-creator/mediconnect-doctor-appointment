@@ -18,8 +18,9 @@ services:
         value: 7d
 
   # Frontend Static Site
-  - type: static
+  - type: web
     name: mediconnect-frontend
+    runtime: static
     plan: free
     rootDir: frontend
     buildCommand: npm install && npm run build
