@@ -50,12 +50,12 @@ app.get('/api/health', (req, res) => {
 // Serve static assets in production
 const isProduction = process.env.NODE_ENV === 'production' || process.env.PORT !== undefined;
 if (isProduction) {
-  app.use(express.static(path.join(__dirname, '../frontend/dist')));
+  app.use(express.static(path.join(__dirname, 'dist')));
   app.get('*', (req, res, next) => {
     if (req.originalUrl.startsWith('/api')) {
       return next();
     }
-    res.sendFile(path.resolve(__dirname, '../frontend', 'dist', 'index.html'));
+    res.sendFile(path.resolve(__dirname, 'dist', 'index.html'));
   });
 }
 
