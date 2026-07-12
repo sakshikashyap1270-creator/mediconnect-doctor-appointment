@@ -1,11 +1,11 @@
 services:
-  # Backend Web Service
+  # Monolithic Full-Stack Web Service
   - type: web
     name: mediconnect-backend
     env: node
     plan: free
     rootDir: backend
-    buildCommand: npm install && npx prisma generate && npx prisma db push
+    buildCommand: npm install && cd ../frontend && npm install && npm run build && cd ../backend && npx prisma generate && npx prisma db push
     startCommand: npm start
     envVars:
       - key: DATABASE_URL
@@ -16,17 +16,8 @@ services:
         generateValue: true
       - key: JWT_EXPIRES_IN
         value: 7d
-
-  # Frontend Static Site
-  - type: web
-    name: mediconnect-frontend
-    runtime: static
-    rootDir: frontend
-    buildCommand: npm install && npm run build
-    staticPublishPath: dist
-    envVars:
-      - key: VITE_API_URL
-        value: https://mediconnect-backend.onrender.com
+      - key: NODE_ENV
+        value: production
 
 databases:
   - name: mediconnect-db

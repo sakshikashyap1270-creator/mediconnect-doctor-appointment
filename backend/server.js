@@ -47,6 +47,18 @@ app.get('/api/health', (req, res) => {
   res.status(200).json({ status: 'healthy', timestamp: new Date() });
 });
 
+// Serve static assets in production
+const isProduction = process.env.NODE_ENV === 'production' || process.env.PORT !== undefined;
+if (isProduction) {
+  app.use(express.static(path.join(__dirname, '../frontend/dist')));
+  app.get('*', (req, res, next) => {
+    if (req.originalUrl.startsWith('/api')) {
+      return next();
+    }
+    res.sendFile(path.resolve(__dirname, '../frontend', 'dist', 'index.html'));
+  });
+}
+
 // Error handling routes
 app.use(notFound);
 app.use(errorHandler);
