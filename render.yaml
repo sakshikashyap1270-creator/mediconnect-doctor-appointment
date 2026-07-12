@@ -5,7 +5,7 @@ services:
     env: node
     plan: free
     rootDir: backend
-    buildCommand: npm install && cd ../frontend && npm install && npm run build && cd ../backend && npx prisma generate && npx prisma db push
+    buildCommand: npm install --include=dev && cd ../frontend && npm install --include=dev && npm run build && cd ../backend && npx prisma generate && npx prisma db push
     startCommand: npm start
     envVars:
       - key: DATABASE_URL
