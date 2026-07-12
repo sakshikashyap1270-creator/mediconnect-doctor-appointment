@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MediConnect - Medical Appointment & Patient Management</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Toast Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">
+          <span>🩺</span> MediConnect
+        </div>
+      </div>
+      <ul class="sidebar-nav" id="sidebar-nav-list">
+        <!-- Injected dynamically by app.js based on role -->
+      </ul>
+      <div class="sidebar-footer">
+        <!-- Profile info card (initially hidden until login) -->
+        <div class="user-profile-card" id="user-profile-card" style="display: none;">
+          <div class="avatar" id="sidebar-user-avatar">US</div>
+          <div class="user-info">
+            <span class="user-name" id="sidebar-user-name">User Name</span>
+            <span class="user-role" id="sidebar-user-role">PATIENT</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main View Area -->
+    <div class="main-wrapper">
+      <!-- Main Top Header -->
+      <header class="main-header">
+        <div class="header-search">
+          <span>🔍</span>
+          <input type="text" placeholder="Search appointments, clinics, records...">
+        </div>
+        <div class="header-actions">
+          <!-- Role Switcher -->
+          <div class="role-switcher-container">
+            <button class="role-switch-btn" data-role="guest" onclick="app.switchRole('guest')">Guest</button>
+            <button class="role-switch-btn" data-role="patient" onclick="app.switchRole('patient')">Patient</button>
+            <button class="role-switch-btn" data-role="doctor" onclick="app.switchRole('doctor')">Doctor</button>
+            <button class="role-switch-btn" data-role="admin" onclick="app.switchRole('admin')">Admin</button>
+          </div>
+
+          <!-- Theme Toggle -->
+          <button class="btn-icon" title="Toggle Light/Dark Theme" onclick="document.body.classList.toggle('dark-mode')">
+            <span>🌓</span>
+          </button>
+
+          <!-- Notifications Panel -->
+          <button class="btn-icon" id="notification-bell-btn" title="View Notifications" onclick="app.showToast('All notifications read.', 'success'); this.querySelector('.badge-dot')?.remove()">
+            <span>🔔</span>
+            <div class="badge-dot"></div>
+          </button>
+        </div>
+      </header>
+
+      <!-- Dynamic Page Container -->
+      <main class="page-content" id="main-content">
+        <!-- Rendered views will appear here -->
+      </main>
+    </div>
+  </div>
+
+  <!-- General Purpose Modal Overlay -->
+  <div id="general-modal" class="modal-overlay">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 id="modal-title">Modal Title</h3>
+        <button class="btn-icon" style="padding: 2px;" onclick="app.closeModal()">✕</button>
+      </div>
+      <div class="modal-body" id="modal-body">
+        <!-- Dynamic modal body content -->
+      </div>
+      <div class="modal-footer" id="modal-footer">
+        <button class="btn btn-secondary" onclick="app.closeModal()">Close</button>
+        <button class="btn btn-primary">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Simulated Video Consultation Overlay -->
+  <div id="video-consultation-overlay" class="video-overlay">
+    <div class="video-main">
+      <div class="video-doc-feed">
+        <h3>Doctor Stream Connecting...</h3>
+      </div>
+      <div class="video-self-feed">
+        <span>Self Feed (Camera)</span>
+      </div>
+    </div>
+    <div class="video-controls">
+      <button class="btn-video-control" title="Mute Microphone" onclick="app.showToast('Microphone muted', 'warning')">🎙️</button>
+      <button class="btn-video-control" title="Stop Camera Feed" onclick="app.showToast('Camera stopped', 'warning')">📹</button>
+      <button class="btn-video-control hangup" title="Disconnect Consult Session" onclick="app.endVideoCall()">🚫</button>
+    </div>
+  </div>
+
+  <!-- Interactive Floating Chat Widget -->
+  <div id="chat-widget" class="chat-widget">
+    <div class="chat-header">
+      <span class="chat-title">Chat with Doctor</span>
+      <button class="btn-icon" style="color: white; padding: 2px;" onclick="app.closeChat()">✕</button>
+    </div>
+    <div class="chat-body">
+      <!-- Chat history is appended here by app.js -->
+    </div>
+    <div class="chat-input-area">
+      <input type="text" id="chat-input-field" class="form-control" placeholder="Type message..." onkeydown="if(event.key === 'Enter') app.sendChatMessage()">
+      <button class="btn btn-primary btn-sm" onclick="app.sendChatMessage()">Send</button>
+    </div>
+  </div>
+
+  <!-- App scripts -->
+  <script src="js/db.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
